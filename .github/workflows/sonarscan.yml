@@ -34,12 +34,14 @@ jobs:
 
     # Step 5: Run SonarQube Scan
     - name: SonarQube Scan
-      uses: sonarsource/sonarqube-scan-action@v3
-      with:
-        projectBaseDir: ./
+      # uses: sonarsource/sonarqube-scan-action@v3
+      # with:
+      #   projectBaseDir: ./
       env:
         SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
         SONAR_HOST_URL: ${{ secrets.SONAR_URL }}
-
-    - name: Run JaCoCo coverage report
-      run: mvn sonar:sonar -Pcoverage
+      run: |
+          # Extract the sonar.projectKey from the sonar-project.properties file
+          PROJECT_KEY=$(grep -Po '(?<=^sonar.projectKey=).*' sonar-project.properties)
+          PROJECT_NAME=$(grep -Po '(?<=^sonar.projectName=).*' sonar-project.properties)
+          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=$PROJECT_KEY -Dsonar.projectName=$PROJECT_NAME

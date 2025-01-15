@@ -40,3 +40,6 @@ jobs:
       env:
         SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
         SONAR_HOST_URL: ${{ secrets.SONAR_URL }}
+
+    - name: Run JaCoCo coverage report
+      run: mvn jacoco:report

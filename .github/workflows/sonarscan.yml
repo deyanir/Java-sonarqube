@@ -42,4 +42,4 @@ jobs:
         SONAR_HOST_URL: ${{ secrets.SONAR_URL }}
 
     - name: Run JaCoCo coverage report
-      run: mvn jacoco:report
+      run: mvn sonar:sonar -Pcoverage
